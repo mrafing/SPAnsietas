@@ -4,7 +4,7 @@
     @if (!empty($hasil) && $hasil[0]['similarity'] > 0)
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Hasil Diagnosis</h6>
+                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-notes-medical"></i> Hasil Diagnosis</h6>
             </div>
             <div class="card-body">
                 <div class="chart-pie pt-4">
@@ -39,7 +39,7 @@
 
                     <div class="row">
                         <button type="submit" class="col btn btn-primary mr-3">Simpan</button>
-                        <a href="" class="col btn btn-danger">Diagnosis Ulang</a>
+                        <a href="{{ URL::to('diagnosis') }}" class="col btn btn-danger">Diagnosis Ulang</a>
 
                     </div>
                 </form>

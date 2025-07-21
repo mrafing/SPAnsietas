@@ -18,82 +18,102 @@
             <span>Dashboard</span></a>
     </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider">
+    @if (Auth::user()->is_admin)
+        <!-- Divider -->
+        <hr class="sidebar-divider">
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Administrator
-    </div>
-
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-list"></i>
-            <span>Penyakit</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Pilihan:</h6>
-                <a class="collapse-item" href="">Kelola</a>
-                <a class="collapse-item" href="">Tambah</a>
-            </div>
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Administrator
         </div>
-    </li>
 
-    <!-- Nav Item - Utilities Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-            aria-expanded="true" aria-controls="collapseUtilities">
-            <i class="fas fa-list"></i>
-            <span>Gejala</span>
-        </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Pilihan:</h6>
-                <a class="collapse-item" href="">Kelola</a>
-                <a class="collapse-item" href="">Tambah</a>
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-notes-medical"></i>
+                <span>Penyakit</span>
+            </a>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Pilihan:</h6>
+                    <a class="collapse-item" href="{{ route('penyakit.index') }}">Kelola</a>
+                    <a class="collapse-item" href="{{ route('penyakit.create') }}">Tambah</a>
+                </div>
             </div>
-        </div>
-    </li>
+        </li>
 
-    <!-- Nav Item - Utilities Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePasien">
-            <i class="fas fa-users"></i>
-            <span>Pasien</span>
-        </a>
-        <div id="collapsePasien" class="collapse">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Pilihan:</h6>
-                <a class="collapse-item" href="{{ route('pasien.index') }}">Kelola</a>
-                <a class="collapse-item" href="{{ route('pasien.create') }}">Tambah</a>
+        <!-- Nav Item - Utilities Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                aria-expanded="true" aria-controls="collapseUtilities">
+                <i class="fas fa-list"></i>
+                <span>Gejala</span>
+            </a>
+            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Pilihan:</h6>
+                    <a class="collapse-item" href="{{ route('gejala.index') }}">Kelola</a>
+                    <a class="collapse-item" href="{{ route('gejala.create') }}">Tambah</a>
+                </div>
             </div>
+        </li>
+
+        <!-- Nav Item - Utilities Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePengetahuan"
+                aria-expanded="true" aria-controls="collapsePengetahuan">
+                <i class="fas fa-user-md"></i>
+                <span>Pengetahuan</span>
+            </a>
+            <div id="collapsePengetahuan" class="collapse" aria-labelledby="headingUtilities"
+                data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Pilihan:</h6>
+                    <a class="collapse-item" href="{{ route('pengetahuan.index') }}">Kelola</a>
+                    <a class="collapse-item" href="{{ route('pengetahuan.create') }}">Tambah</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Nav Item - Utilities Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePasien">
+                <i class="fas fa-users"></i>
+                <span>Pasien</span>
+            </a>
+            <div id="collapsePasien" class="collapse">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Pilihan:</h6>
+                    <a class="collapse-item" href="{{ route('pasien.index') }}">Kelola</a>
+                    <a class="collapse-item" href="{{ route('pasien.create') }}">Tambah</a>
+                </div>
+            </div>
+        </li>
+    @else
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Konsultasi
         </div>
-    </li>
 
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ URL::to('diagnosis') }}">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Diagnosis</span>
+            </a>
+        </li>
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Konsultasi
-    </div>
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ URL::to('diagnosis') }}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Diagnosis</span>
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('riwayatpasien', Auth::user()->pasien->id) }}">
-            <i class="fas fa-history"></i>
-            <span>Riwayat</span>
-        </a>
-    </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('riwayatpasien', Auth::user()->pasien->id) }}">
+                <i class="fas fa-history"></i>
+                <span>Riwayat</span>
+            </a>
+        </li>
+    @endif
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">

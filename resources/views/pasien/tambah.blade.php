@@ -13,7 +13,9 @@
     @endif
 
     <div class="card shadow mb-4">
-        <div class="card-header">Tambah Pasien</div>
+        <div class="card-header">
+            <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-users"></i> Tambah Data Pasien</h6>
+        </div>
         <div class="card-body">
             <form class="user" action="{{ route('pasien.store') }}" method="post">
                 @csrf

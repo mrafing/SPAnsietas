@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Gejala;
 use App\Http\Requests\StoreGejalaRequest;
 use App\Http\Requests\UpdateGejalaRequest;
+use App\Models\KategoriGejala;
+use Illuminate\Http\Request;
 
 class GejalaController extends Controller
 {
@@ -15,7 +17,8 @@ class GejalaController extends Controller
      */
     public function index()
     {
-        //
+        $list_gejala = Gejala::all();
+        return view('gejala.index', compact('list_gejala'));
     }
 
     /**
@@ -25,7 +28,8 @@ class GejalaController extends Controller
      */
     public function create()
     {
-        //
+        $list_kategori = KategoriGejala::all();
+        return view('gejala.tambah', compact('list_kategori'));
     }
 
     /**
@@ -34,9 +38,24 @@ class GejalaController extends Controller
      * @param  \App\Http\Requests\StoreGejalaRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreGejalaRequest $request)
+    public function store(Request $request)
     {
-        //
+        // Validasi input
+        $request->validate([
+            'kode' => 'required|string|max:10|unique:tbl_gejala,kode',
+            'kode_kategori_gejala' => 'required|string',
+            'nama_gejala' => 'required|string|max:255',
+        ]);
+
+        // Simpan ke database
+        Gejala::create([
+            'kode' => $request->kode,
+            'kode_kategori_gejala' => $request->kode_kategori_gejala,
+            'nama_gejala' => $request->nama_gejala,
+        ]);
+
+        // Redirect dengan pesan sukses
+        return redirect()->route('gejala.index')->with('success', 'Data gejala berhasil ditambahkan.');
     }
 
     /**
@@ -58,7 +77,8 @@ class GejalaController extends Controller
      */
     public function edit(Gejala $gejala)
     {
-        //
+        $list_kategori = KategoriGejala::all();
+        return view('gejala.edit', compact('gejala', 'list_kategori'));
     }
 
     /**
@@ -68,9 +88,16 @@ class GejalaController extends Controller
      * @param  \App\Models\Gejala  $gejala
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateGejalaRequest $request, Gejala $gejala)
+    public function update(Request $request, Gejala $gejala)
     {
-        //
+        // Validasi input
+        $request->validate([
+            'kode_kategori_gejala' => 'required|string',
+            'nama_gejala' => 'required|string|max:255'
+        ]);
+        
+        $gejala->update($request->only('kode_kategori_gejala', 'nama_gejala'));
+        return redirect()->route('gejala.index')->with('success', 'Data Gejala berhasil diperbarui.');
     }
 
     /**
@@ -81,6 +108,7 @@ class GejalaController extends Controller
      */
     public function destroy(Gejala $gejala)
     {
-        //
+        $gejala->delete();
+        return redirect()->route('gejala.index')->with('success', 'Data gejala berhasil dihapus.');
     }
 }

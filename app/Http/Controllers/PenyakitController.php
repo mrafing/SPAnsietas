@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Penyakit;
 use App\Http\Requests\StorePenyakitRequest;
 use App\Http\Requests\UpdatePenyakitRequest;
+use Illuminate\Http\Request;
 
 class PenyakitController extends Controller
 {
@@ -15,7 +16,8 @@ class PenyakitController extends Controller
      */
     public function index()
     {
-        //
+        $list_penyakit = Penyakit::all();
+        return view('penyakit.index', compact('list_penyakit'));
     }
 
     /**
@@ -25,7 +27,7 @@ class PenyakitController extends Controller
      */
     public function create()
     {
-        //
+        return view('penyakit.tambah');
     }
 
     /**
@@ -34,9 +36,26 @@ class PenyakitController extends Controller
      * @param  \App\Http\Requests\StorePenyakitRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePenyakitRequest $request)
+    public function store(Request $request)
     {
-        //
+        // Validasi input
+        $request->validate([
+            'kode' => 'required|string|max:10|unique:tbl_penyakit,kode',
+            'nama_penyakit' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'solusi' => 'required|string',
+        ]);
+
+        // Simpan ke database
+        Penyakit::create([
+            'kode' => $request->kode,
+            'nama_penyakit' => $request->nama_penyakit,
+            'deskripsi' => $request->deskripsi,
+            'solusi' => $request->solusi,
+        ]);
+
+        // Redirect dengan pesan sukses
+        return redirect()->route('penyakit.index')->with('success', 'Data penyakit berhasil ditambahkan.');
     }
 
     /**
@@ -58,7 +77,7 @@ class PenyakitController extends Controller
      */
     public function edit(Penyakit $penyakit)
     {
-        //
+        return view('penyakit.edit', compact('penyakit'));
     }
 
     /**
@@ -68,9 +87,17 @@ class PenyakitController extends Controller
      * @param  \App\Models\Penyakit  $penyakit
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePenyakitRequest $request, Penyakit $penyakit)
+    public function update(Request $request, Penyakit $penyakit)
     {
-        //
+        // Validasi input
+        $request->validate([
+            'nama_penyakit' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'solusi' => 'required|string',
+        ]);
+        
+        $penyakit->update($request->only('nama_penyakit', 'deskripsi', 'solusi'));
+        return redirect()->route('penyakit.index')->with('success', 'Data Penyakit berhasil diperbarui.');
     }
 
     /**
@@ -81,6 +108,7 @@ class PenyakitController extends Controller
      */
     public function destroy(Penyakit $penyakit)
     {
-        //
+        $penyakit->delete();
+        return redirect()->route('penyakit.index')->with('success', 'Data penyakit berhasil dihapus.');
     }
 }
